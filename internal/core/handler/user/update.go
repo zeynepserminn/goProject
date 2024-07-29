@@ -1,9 +1,7 @@
 package user
 
 import (
-	"errors"
 	"github.com/gin-gonic/gin"
-	"goProject/internal"
 	"goProject/internal/core/dto"
 	"goProject/pkg/validation"
 	"net/http"
@@ -26,10 +24,10 @@ func (h *UserHandler) UpdateUser(c *gin.Context) {
 	}
 
 	if err := validation.ValidateStruct(user); err != nil {
-		if errors.Is(err, internal.ErrValidationFailed) {
-			sendResponse(c, http.StatusBadRequest, ValidationFailed, err.Error())
-			return
-		}
+
+		sendResponse(c, http.StatusBadRequest, ValidationFailed, err.Error())
+		return
+
 	}
 
 	if err := h.userService.UpdateUser(user); err != nil {

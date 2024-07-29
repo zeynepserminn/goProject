@@ -1,9 +1,7 @@
 package userservice
 
 import (
-	"errors"
 	"goProject/internal/core/dto"
-	"goProject/internal/core/model"
 	"goProject/internal/interface"
 )
 
@@ -24,14 +22,4 @@ type UserServiceI interface {
 func NewUserService(userRepo _interface.UserPort) UserServiceI {
 	return &UserServiceImpl{userRepo: userRepo}
 
-}
-func isValidRole(role string) (model.UserRole, error) {
-	switch role {
-	case "admin":
-		return model.RoleAdmin, nil
-	case "user":
-		return model.RoleUser, nil
-	default:
-		return model.UserRole(-1), errors.New("user role not exist")
-	}
 }

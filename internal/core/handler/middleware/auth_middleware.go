@@ -33,11 +33,18 @@ func AuthMiddleware(userService userservice.UserServiceI) gin.HandlerFunc {
 		token, err := jwt.ParseWithClaims(tokenString, &jwt2.UserToken{}, func(token *jwt.Token) (interface{}, error) {
 			return secretKey, nil
 		})
-		if err != nil || !token.Valid {
-			c.JSON(http.StatusUnauthorized, gin.H{"error": err.Error()})
+		if err != nil {
+			c.JSON(http.StatusUnauthorized, gin.H{"error": "Invalid token"})
 			c.Abort()
 			return
 		}
+
+		if !token.Valid {
+			c.JSON(http.StatusUnauthorized, gin.H{"error": "Token is not valid"})
+			c.Abort()
+			return
+		}
+
 		claims, ok := token.Claims.(*jwt2.UserToken)
 
 		if !ok {

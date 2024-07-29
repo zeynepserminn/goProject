@@ -39,7 +39,7 @@ func (a AuthService) Login(email, password string) (*LoginResponse, error) {
 	}
 	err = bcrypt.CompareHashAndPassword([]byte(user.Password), []byte(password))
 	if err != nil {
-		return nil, err
+		return nil, errors.New("password doesn't match")
 	}
 	userToken := jwt.UserToken{
 

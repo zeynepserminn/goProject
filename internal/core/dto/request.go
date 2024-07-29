@@ -12,19 +12,19 @@ type AddUserRequest struct {
 }
 
 type UpdateUserRequest struct {
-	FirstName string `json:"first_name" validate:"required,max=50,alpha" `
-	Lastname  string `json:"last_name" validate:"required,max=50,alpha"`
-	Email     string `json:"email" validate:"required,validEmail"`
-	Phone     string `json:"phone_number" validate:"required,max=20,validPhone"`
-	ID        int32  `json:"id" validate:"required"`
-	Password  string `json:"password" `
-	Status    int    `json:"status" `
-	Role      int    `json:"role" validate:"required"`
+	FirstName string         `json:"first_name" validate:"required,max=50,alpha" `
+	Lastname  string         `json:"last_name" validate:"required,max=50,alpha"`
+	Email     string         `json:"email" validate:"required,validEmail"`
+	Phone     string         `json:"phone_number" validate:"required,max=20,validPhone"`
+	ID        int32          `json:"id" validate:"required"`
+	Password  string         `json:"password" `
+	Status    int            `json:"status" `
+	Role      model.UserRole `json:"role" `
 }
 
 type DeleteUserRequest struct {
-	ID   int32 `json:"id" validate:"required"`
-	Role int   `json:"role" validate:"required"`
+	ID   int32 `json:"id" `
+	Role int   `json:"role" `
 }
 
 type GetUserByIdDTO struct {

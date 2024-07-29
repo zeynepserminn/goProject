@@ -47,12 +47,24 @@ func (j *Jwt) generateToken(user UserToken, secretKey []byte, duration time.Dura
 	}
 	return tokenString, expirationTime, nil
 }
+
 func (j *Jwt) GenerateAccessToken(user UserToken) (string, time.Time, error) {
 	return j.generateToken(user, j.AccessSecret, j.AccessInterval)
 }
+
 func (j *Jwt) GenerateRefreshToken(user UserToken) (string, time.Time, error) {
 	j.RefreshInterval = 24 * 180 * time.Hour
 	return j.generateToken(user, j.RefreshSecret, j.RefreshInterval)
+}
+
+func (j *Jwt) ParseWithClaims(tokenString string, claims jwt.Claims, secretKey []byte) (*jwt.Token, error) {
+	token, err := jwt.ParseWithClaims(tokenString, claims, func(token *jwt.Token) (interface{}, error) {
+		return secretKey, nil
+	})
+	if err != nil {
+		return nil, err
+	}
+	return token, nil
 }
 
 func (j *Jwt) ValidateRefreshToken(refreshToken string) (*UserToken, error) {

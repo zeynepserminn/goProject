@@ -6,7 +6,6 @@ import (
 	"goProject/internal/core/dto"
 	"goProject/internal/core/model"
 	"goProject/pkg/bcryptt"
-	"strconv"
 )
 
 func (u *UserServiceImpl) UpdateUser(userDto dto.UpdateUserRequest) error {
@@ -15,11 +14,6 @@ func (u *UserServiceImpl) UpdateUser(userDto dto.UpdateUserRequest) error {
 		if errors.Is(err, internal.ErrUserNotFound) {
 			return internal.ErrUserNotFound
 		}
-		return err
-	}
-	roleStr := strconv.Itoa(userDto.Role)
-	role, err := isValidRole(roleStr)
-	if err != nil {
 		return err
 	}
 
@@ -61,7 +55,7 @@ func (u *UserServiceImpl) UpdateUser(userDto dto.UpdateUserRequest) error {
 		ID:        existinguser.ID,
 		Password:  hashedPassword,
 		Status:    existinguser.Status,
-		Role:      role,
+		Role:      userDto.Role,
 	}
 	if err := u.userRepo.UpdateUser(user); err != nil {
 		return err

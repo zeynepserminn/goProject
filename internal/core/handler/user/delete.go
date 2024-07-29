@@ -1,9 +1,7 @@
 package user
 
 import (
-	"errors"
 	"github.com/gin-gonic/gin"
-	"goProject/internal"
 	"goProject/internal/core/dto"
 	"goProject/pkg/validation"
 	"net/http"
@@ -20,10 +18,8 @@ func (h *UserHandler) DeleteUser(c *gin.Context) {
 	user := dto.DeleteUserRequest{ID: int32(id)}
 
 	if err := validation.ValidateStruct(user); err != nil {
-		if errors.Is(err, internal.ErrValidationFailed) {
-			sendResponse(c, http.StatusBadRequest, ValidationFailed, err.Error())
-			return
-		}
+		sendResponse(c, http.StatusBadRequest, ValidationFailed, err.Error())
+		return
 	}
 
 	if err := h.userService.DeleteUser(user); err != nil {

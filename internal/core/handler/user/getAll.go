@@ -1,9 +1,7 @@
 package user
 
 import (
-	"errors"
 	"github.com/gin-gonic/gin"
-	"goProject/internal"
 	"goProject/internal/core/dto"
 	"goProject/pkg/validation"
 	"net/http"
@@ -19,10 +17,10 @@ func (h *UserHandler) GetAllUsers(c *gin.Context) {
 		return
 	}
 	if err = validation.ValidateStruct(&pagination); err != nil {
-		if errors.Is(err, internal.ErrValidationFailed) {
-			sendResponse(c, http.StatusBadRequest, ValidationFailed, err.Error())
-			return
-		}
+
+		sendResponse(c, http.StatusBadRequest, ValidationFailed, err.Error())
+		return
+
 	}
 
 	if err = c.ShouldBind(&filters); err != nil {
@@ -31,10 +29,10 @@ func (h *UserHandler) GetAllUsers(c *gin.Context) {
 	}
 
 	if err = validation.ValidateStruct(&filters); err != nil {
-		if errors.Is(err, internal.ErrValidationFailed) {
-			sendResponse(c, http.StatusBadRequest, ValidationFailed, err.Error())
-			return
-		}
+
+		sendResponse(c, http.StatusBadRequest, ValidationFailed, err.Error())
+		return
+
 	}
 
 	users, total, err := h.userService.GetAllUsers(pagination, filters)

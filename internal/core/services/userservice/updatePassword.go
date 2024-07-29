@@ -27,7 +27,7 @@ func (s *UserServiceImpl) UpdatePassword(userID int64, request dto.UpdatePasswor
 	if err != nil {
 		return err
 	}
-	userValue := *user
+
 	user.Password = hashedPassword
-	return s.userRepo.UpdateUser(userValue)
+	return s.userRepo.UpdateUser(*user)
 }
