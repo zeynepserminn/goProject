@@ -32,7 +32,7 @@ func (a AuthService) Login(email, password string) (*LoginResponse, error) {
 		return nil, err
 	}
 	if user == nil {
-		return nil, errors.New("user not found") //TODO:şifren yok
+		return nil, errors.New("user not found") 
 	}
 	if user.Status != model.Active {
 		return nil, internal.ErrUserNotActive
